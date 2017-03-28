@@ -15,7 +15,7 @@ string hexStr = HexHelper.ByteToHex(Encoding.ASCII.GetBytes(helloworld));
 Console.WriteLine(string.Format("{0}的16进制表示为：{1}", helloworld, hexStr));
 
 byte[] data = HexHelper.HexToBytes(hexStr);
-string hexStr2 = XingKongUtils.HexHelper.ByteToHex(data);
+string hexStr2 = HexHelper.ByteToHex(data);
 Console.WriteLine("\r\n将刚刚的16进制字符串转换回byte数组，然后再转换成16进制表示");
 Console.WriteLine(hexStr2);
 
