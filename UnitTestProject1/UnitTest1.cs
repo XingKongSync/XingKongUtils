@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using System.IO;
+using XingKongUtils;
+using XingKongAutoStartup;
 
 namespace UnitTestProject1
 {
@@ -70,8 +72,11 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestLogManager()
         {
-            var logManager = XingKongUtils.LogManager.GetInstance();
-            XingKongUtils.LogManager.Log("testing log.");
+            LogManager.ShowConsole();
+            LogManager.Log("testing log.");
+            LogManager.Log("warning", LogManager.MessageType.Warning);
+            LogManager.Log("error", LogManager.MessageType.Error, true);
+            LogManager.HideConsole();
         }
 
         [TestMethod]
@@ -80,6 +85,29 @@ namespace UnitTestProject1
             string url = "http://www.baidu.com";
             string response = XingKongUtils.HttpUtils.Get(url);
             Console.WriteLine(response);
+        }
+
+        [TestMethod]
+        public void TestXKSerialPort()
+        {
+            XKserialPort xkSerialPort = new XKserialPort("COM1", 9600, 0, 0, XKserialPort.FlowControlType.Hardware);
+            xkSerialPort.SetTimeOuts(500, 0, 0, 2, 500);
+            xkSerialPort.Open();
+            xkSerialPort.Write("hello.");//GB2312
+            byte[] data = new byte[] { 0xff, 0x01, 0x02 };
+            int datalength = data.Length;
+            xkSerialPort.Write(data, ref datalength);
+            xkSerialPort.Close();
+        }
+
+        [TestMethod]
+        public void TestAutoRun()
+        {
+            AutoRunHelper autoRunHelper = new AutoRunHelper(@"D:\test.exe", "MyApp", "My Application will auto run after windows stated");
+            if (!autoRunHelper.isAutoRun())
+            {
+                autoRunHelper.RunWhenStart(true);
+            }
         }
     }
 }

@@ -55,9 +55,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XingKongAutoStartup\XingKongAutoStartup.csproj">
+      <Project>{48295425-63f7-42f3-b47a-8f430ace2312}</Project>
+      <Name>XingKongAutoStartup</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XingKongLogManager\XingKongLogManager.csproj">
       <Project>{345e5b15-d683-42e0-9314-3a8832ae2ab0}</Project>
       <Name>XingKongLogManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XingKongSerialPort\XingKongSerialPort.csproj">
+      <Project>{93EFF8F1-B2CC-4556-9D0A-11F04CFDEB40}</Project>
+      <Name>XingKongSerialPort</Name>
     </ProjectReference>
     <ProjectReference Include="..\XingKongUtils\XingKongUtils.csproj">
       <Project>{C1B3352C-D047-4DF5-BC19-74765EF1DBDE}</Project>
