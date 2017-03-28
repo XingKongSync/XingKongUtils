@@ -11,15 +11,15 @@ This solution contains some C# utils.<br/>
 You can use HexHelper to convert byte array to hex string and also can convert hex string to byte array.
 ```C#
 string helloworld = "Hello World!";
-string hexStr = XingKongUtils.HexHelper.ByteToHex(Encoding.ASCII.GetBytes(helloworld));
+string hexStr = HexHelper.ByteToHex(Encoding.ASCII.GetBytes(helloworld));
 Console.WriteLine(string.Format("{0}的16进制表示为：{1}", helloworld, hexStr));
 
-byte[] data = XingKongUtils.HexHelper.HexToBytes(hexStr);
+byte[] data = HexHelper.HexToBytes(hexStr);
 string hexStr2 = XingKongUtils.HexHelper.ByteToHex(data);
 Console.WriteLine("\r\n将刚刚的16进制字符串转换回byte数组，然后再转换成16进制表示");
 Console.WriteLine(hexStr2);
 
-string str = XingKongUtils.HexHelper.BytesToString(data, Encoding.ASCII);
+string str = HexHelper.BytesToString(data, Encoding.ASCII);
 Console.WriteLine("\r\n将byte数组转换回字符串");
 Console.WriteLine(str);
 ```
