@@ -202,8 +202,8 @@ namespace XingKongUtils
         /// <summary>
         /// 以逆时针为方向对图像进行旋转
         /// </summary>
-        /// <param name="b">位图流</param>
-        /// <param name="angle">旋转角度[0,360](前台给的)</param>
+        /// <param name="b">位图对象</param>
+        /// <param name="angle">旋转角度[0,360]</param>
         /// <returns></returns>
         public static Bitmap Rotate(Bitmap b, int angle)
         {

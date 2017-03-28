@@ -12,8 +12,9 @@ namespace UnitTestProject1
         public void TestHttpPost()
         {
             var args = XingKongUtils.HttpUtils.ConstructArgs();
-            args.Add("inspectTeamId", "9");
-            string url = "http://iems.jingnengyun.com/rt/ap/v1/head/get_prlist_by_id";
+            args.Add("name", "XingKong");
+            args.Add("city", "Beijing");
+            string url = "http://www.w3school.com.cn/example/jquery/demo_test_post.asp";
 
             Console.WriteLine("开始测试static版的HttpPost");
             var response = XingKongUtils.HttpUtils.Post(url, args, XingKongUtils.HttpUtils.RequestType.Json);
@@ -29,7 +30,7 @@ namespace UnitTestProject1
             Console.WriteLine();
 
             Console.WriteLine("开始测试Static发送Raw数据的的HttpPost");
-            response = XingKongUtils.HttpUtils.Post(url, "{\"inspectTeamId\" : \"9\"}", XingKongUtils.HttpUtils.RequestType.Raw);
+            response = XingKongUtils.HttpUtils.Post(url, "name=XingKong&city=Beijing", XingKongUtils.HttpUtils.RequestType.Raw);
             Console.WriteLine(response);
         }
 
@@ -74,16 +75,9 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void TestAutoRun()
-        {
-            string filePath = @"C:\Users\liuqi\Desktop\wiringPi用户手册V001.pdf";
-            Console.WriteLine(Path.GetDirectoryName(filePath));
-        }
-
-        [TestMethod]
         public void TestHttpGet()
         {
-            string url = "https://sp0.baidu.com/9_Q4sjW91Qh3otqbppnN2DJv/pae/channel/data/asyncqury?cb=jQuery110204408993111524364_1489902564206&appid=4001&com=yuantong&nu=200423030012&vcode=&token=&_=1489902564208";
+            string url = "http://www.baidu.com";
             string response = XingKongUtils.HttpUtils.Get(url);
             Console.WriteLine(response);
         }
