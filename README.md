@@ -42,7 +42,7 @@ Console.WriteLine(string.Format("Width:{0}, Height{1}", picSize.Width, picSize.H
 ```
 
 ### XingKongUtils.HttpUtils<br/>
-    可以方便地使用Post和Get方法，并且支持Json、Form和Raw格式的参数。
+    可以方便地使用Post和Get方法，并且支持Json、Form和Raw格式的参数。<br/>
     You can easily do HTTP-POST and HTTP-GET with this class, it also support three type paramters like Josn, Form and Raw.
 ```C#
 var args = XingKongUtils.HttpUtils.ConstructArgs();
