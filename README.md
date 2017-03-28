@@ -69,7 +69,7 @@ Console.WriteLine(response);
 ```
 
 ### XingKongUtils.UdpUtils
-    通过如下方法创建一个Udp Client，并开始监听端口。当收到数据时会触发DataReceived或者DataReceived2事件。DataReceived事件不关心数据的发送者，如果期望获得到发送方的相关信息的话，请绑定DataReceived2事件<br/>
+    通过如下方法创建一个Udp Client，并开始监听端口。当收到数据时会触发DataReceived或者DataReceived2事件。DataReceived事件不关心数据的发送者，如果期望获得到发送方的相关信息的话，请绑定DataReceived2事件。<br/>
     You can create a udp client and then start listening a port like this. When data received you can get the data in event handler DataReceived or DataReceived2. If you want get the infomation about data sender, please bind the DataReceived2 event instead of DataReceived.
 ```C#
 UdpUtils.UdpListen udpClient = new UdpUtils.UdpListen(9849);
