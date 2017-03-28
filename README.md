@@ -6,7 +6,7 @@ This solution contains some C# utils.<br/>
 
 ## Example
 
-### XingKongUtils.HexHelper<br/>
+### XingKongUtils.HexHelper
     可以将16进制的文本转换为byte数组，也可以将byte数组转换为16进制的文本<br/>
     You can use HexHelper to convert byte array to hex string and also can convert hex string to byte array.
 ```C#
@@ -24,7 +24,7 @@ Console.WriteLine("\r\n将byte数组转换回字符串");
 Console.WriteLine(str);
 ```
 
-### XingKongUtils.ImageHelper<br/>
+### XingKongUtils.ImageHelper
     可以获取jpg和png图片的长和宽，并且可以缩放和旋转图片。<br/>
     You can get the jpg and png picture file's size. By this class you also can rotate and scale a picture.
 ```C#
@@ -41,7 +41,7 @@ var picSize = XingKongUtils.ImageHelper.getPictureSize(picPath);
 Console.WriteLine(string.Format("Width:{0}, Height{1}", picSize.Width, picSize.Height));
 ```
 
-### XingKongUtils.HttpUtils<br/>
+### XingKongUtils.HttpUtils
     可以方便地使用Post和Get方法，并且支持Json、Form和Raw格式的参数。<br/>
     You can easily do HTTP-POST and HTTP-GET with this class, it also support three type paramters like Josn, Form and Raw.
 ```C#
@@ -76,4 +76,18 @@ UdpUtils.UdpListen udpClient = new UdpUtils.UdpListen(9849);
 udpClient.DataReceived += UdpClient_DataReceived;
 //udpClient.DataReceived2 += UdpClient_DataReceived2;
 udpClient.StartListen();
+```
+### XingKongUtils.XKserialPort
+    直接调用Windows API实现的SerialPort类，与.Net Framework自带的SerialPort类似，但是支持更底层的超时控制，更好地支持硬件握手和流量控制，即使当硬件不支持流量控制时，也可以通过手动指定延时时间来尽量减少丢失数据的可能性。此外，XKserialPort还支持丢失重发，当数据不能全部写入时，会记录当前指针位置，然后稍后重试写入。当检测到数据没有全部写入成功时，XKserialPort还会适当延长平均每字节的等待时间。<br/>
+    XKserialPort is familiar with the SerialPort in .Net Framework, but it uses Windows API directly. XKserialPort support low level timeout controls, and works better with hardware handshake. Even when the hardware doesn't support handshake, it also can decrease the posibility of losing data by giving timeout arguments manually. XKserialPort also support resend the remaining data when write data failed. When writing data failed hanppend, XKserialPort will record the position and try to resend after a moment of waiting. It also increase the value of WriteTotalTimeoutMultiplier properly.
+    
+```C#
+XKserialPort xkSerialPort = new XKserialPort("COM1", 9600, 0, 0, XKserialPort.FlowControlType.Hardware);
+xkSerialPort.SetTimeOuts(500, 0, 0, 2, 500);
+xkSerialPort.Open();
+xkSerialPort.Write("hello.");//GB2312
+byte[] data = new byte[] { 0xff, 0x01, 0x02 };
+int datalength = data.Length;
+xkSerialPort.Write(data, ref datalength);
+xkSerialPort.Close();
 ```
