@@ -7,8 +7,8 @@ This solution contains some C# utils.<br/>
 ## Example
 
 ### XingKongUtils.HexHelper
-    可以将16进制的文本转换为byte数组，也可以将byte数组转换为16进制的文本<br/>
-    You can use HexHelper to convert byte array to hex string and also can convert hex string to byte array.
+可以将16进制的文本转换为byte数组，也可以将byte数组转换为16进制的文本<br/>
+You can use HexHelper to convert byte array to hex string and also can convert hex string to byte array.
 ```C#
 string helloworld = "Hello World!";
 string hexStr = XingKongUtils.HexHelper.ByteToHex(Encoding.ASCII.GetBytes(helloworld));
@@ -25,8 +25,8 @@ Console.WriteLine(str);
 ```
 
 ### XingKongUtils.ImageHelper
-    可以获取jpg和png图片的长和宽，并且可以缩放和旋转图片。<br/>
-    You can get the jpg and png picture file's size. By this class you also can rotate and scale a picture.
+可以获取jpg和png图片的长和宽，并且可以缩放和旋转图片。<br/>
+You can get the jpg and png picture file's size. By this class you also can rotate and scale a picture.
 ```C#
 string pngPath = @"D:\51.png";
 var pngSize = XingKongUtils.ImageHelper.getPngSize(pngPath);
@@ -42,8 +42,8 @@ Console.WriteLine(string.Format("Width:{0}, Height{1}", picSize.Width, picSize.H
 ```
 
 ### XingKongUtils.HttpUtils
-    可以方便地使用Post和Get方法，并且支持Json、Form和Raw格式的参数。<br/>
-    You can easily do HTTP-POST and HTTP-GET with this class, it also support three type parameters like Josn, Form and Raw.
+可以方便地使用Post和Get方法，并且支持Json、Form和Raw格式的参数。<br/>
+You can easily do HTTP-POST and HTTP-GET with this class, it also support three type parameters like Josn, Form and Raw.
 ```C#
 var args = XingKongUtils.HttpUtils.ConstructArgs();
 args.Add("name", "XingKong");
@@ -69,8 +69,8 @@ Console.WriteLine(response);
 ```
 
 ### XingKongUtils.UdpUtils
-    通过如下方法创建一个Udp Client，并开始监听端口。当收到数据时会触发DataReceived或者DataReceived2事件。DataReceived事件不关心数据的发送者，如果期望获得到发送方的相关信息的话，请绑定DataReceived2事件。<br/>
-    You can create a udp client and then start listening a port like this. When data received you can get the data in event handler DataReceived or DataReceived2. If you want get the infomation about data sender, please bind the DataReceived2 event instead of DataReceived.
+通过如下方法创建一个Udp Client，并开始监听端口。当收到数据时会触发DataReceived或者DataReceived2事件。DataReceived事件不关心数据的发送者，如果期望获得到发送方的相关信息的话，请绑定DataReceived2事件。<br/>
+You can create a udp client and then start listening a port like this. When data received you can get the data in event handler DataReceived or DataReceived2. If you want get the infomation about data sender, please bind the DataReceived2 event instead of DataReceived.
 ```C#
 UdpUtils.UdpListen udpClient = new UdpUtils.UdpListen(9849);
 udpClient.DataReceived += UdpClient_DataReceived;
@@ -78,8 +78,8 @@ udpClient.DataReceived += UdpClient_DataReceived;
 udpClient.StartListen();
 ```
 ### XingKongUtils.XKserialPort
-    直接调用Windows API实现的SerialPort类，与.Net Framework自带的SerialPort类似，但是支持更底层的超时控制，更好地支持硬件握手和流量控制，即使当硬件不支持流量控制时，也可以通过手动指定延时时间来尽量减少丢失数据的可能性。此外，XKserialPort还支持丢失重发，当数据不能全部写入时，会记录当前指针位置，然后稍后重试写入。当检测到数据没有全部写入成功时，XKserialPort还会适当延长平均每字节的等待时间。<br/>
-    XKserialPort is familiar with the SerialPort in .Net Framework, but it uses Windows API directly. XKserialPort support low level timeout controls, and works better with hardware handshake. Even when the hardware doesn't support handshake, it also can decrease the posibility of losing data by giving timeout arguments manually. XKserialPort also support resend the remaining data when write data failed. When writing data failed hanppend, XKserialPort will record the position and try to resend after a moment of waiting. It also increase the value of WriteTotalTimeoutMultiplier properly.
+直接调用Windows API实现的SerialPort类，与.Net Framework自带的SerialPort类似，但是支持更底层的超时控制，更好地支持硬件握手和流量控制，即使当硬件不支持流量控制时，也可以通过手动指定延时时间来尽量减少丢失数据的可能性。此外，XKserialPort还支持丢失重发，当数据不能全部写入时，会记录当前指针位置，然后稍后重试写入。当检测到数据没有全部写入成功时，XKserialPort还会适当延长平均每字节的等待时间。<br/>
+XKserialPort is familiar with the SerialPort in .Net Framework, but it uses Windows API directly. XKserialPort support low level timeout controls, and works better with hardware handshake. Even when the hardware doesn't support handshake, it also can decrease the posibility of losing data by giving timeout arguments manually. XKserialPort also support resend the remaining data when write data failed. When writing data failed hanppend, XKserialPort will record the position and try to resend after a moment of waiting. It also increase the value of WriteTotalTimeoutMultiplier properly.
     
 ```C#
 XKserialPort xkSerialPort = new XKserialPort("COM1", 9600, 0, 0, XKserialPort.FlowControlType.Hardware);
@@ -92,8 +92,8 @@ xkSerialPort.Write(data, ref datalength);
 xkSerialPort.Close();
 ```
 ### XingKongUtils.LogManager
-    可以为WinForm或者Wpf程序添加一个控制台的输出窗口，并且支持将日志输出到文件。<br/>
-    You can use LogManager to print some infomation on Console in your WinForm or Wpf application, it also support write your log into a file.
+可以为WinForm或者Wpf程序添加一个控制台的输出窗口，并且支持将日志输出到文件。<br/>
+You can use LogManager to print some infomation on Console in your WinForm or Wpf application, it also support write your log into a file.
 ```C#
 LogManager.ShowConsole();
 LogManager.Log("testing log.");
@@ -102,8 +102,8 @@ LogManager.Log("error", LogManager.MessageType.Error, true);
 LogManager.HideConsole();
 ```
 ### XingKongUtils.AutoRunHelper
-    可以将你的应用程序设置或者取消开机自启。<br/>
-    You can easily make or cancel your application auto run after Windows started.
+可以将你的应用程序设置或者取消开机自启。<br/>
+You can easily make or cancel your application auto run after Windows started.
 ```C#
 AutoRunHelper autoRunHelper = new AutoRunHelper(@"D:\test.exe", "MyApp", "My Application will auto run after windows stated");
 if (!autoRunHelper.isAutoRun())
