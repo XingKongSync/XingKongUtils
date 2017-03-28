@@ -91,3 +91,13 @@ int datalength = data.Length;
 xkSerialPort.Write(data, ref datalength);
 xkSerialPort.Close();
 ```
+### XingKongUtils.LogManager
+    可以为WinForm或者Wpf程序添加一个控制台的输出窗口，并且支持将日志输出到文件。
+    You can use LogManager to print some infomation on Console in your WinForm or Wpf application, it also support write your log into a file.
+```C#
+LogManager.ShowConsole();
+LogManager.Log("testing log.");
+LogManager.Log("warning", LogManager.MessageType.Warning);
+LogManager.Log("error", LogManager.MessageType.Error, true);
+LogManager.HideConsole();
+```
