@@ -92,7 +92,7 @@ xkSerialPort.Write(data, ref datalength);
 xkSerialPort.Close();
 ```
 ### XingKongUtils.LogManager
-    可以为WinForm或者Wpf程序添加一个控制台的输出窗口，并且支持将日志输出到文件。
+    可以为WinForm或者Wpf程序添加一个控制台的输出窗口，并且支持将日志输出到文件。<br/>
     You can use LogManager to print some infomation on Console in your WinForm or Wpf application, it also support write your log into a file.
 ```C#
 LogManager.ShowConsole();
@@ -100,4 +100,14 @@ LogManager.Log("testing log.");
 LogManager.Log("warning", LogManager.MessageType.Warning);
 LogManager.Log("error", LogManager.MessageType.Error, true);
 LogManager.HideConsole();
+```
+### XingKongUtils.AutoRunHelper
+    可以将你的应用程序设置或者取消开机自启。<br/>
+    You can easily make or cancel your application auto run after Windows started.
+```C#
+AutoRunHelper autoRunHelper = new AutoRunHelper(@"D:\test.exe", "MyApp", "My Application will auto run after windows stated");
+if (!autoRunHelper.isAutoRun())
+{
+    autoRunHelper.RunWhenStart(true);
+}
 ```
