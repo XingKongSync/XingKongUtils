@@ -84,7 +84,20 @@ namespace XingKongUtils
                 request = WebRequest.Create(url) as HttpWebRequest;
             }
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            switch (type)
+            {
+                case RequestType.Json:
+                    request.ContentType = "application/json";
+                    break;
+                case RequestType.Form:
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    break;
+                case RequestType.Raw:
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    break;
+                default:
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(userAgent))
             {

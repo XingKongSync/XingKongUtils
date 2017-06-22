@@ -11,6 +11,17 @@ namespace UnitTestProject1
     public class UnitTest1
     {
         [TestMethod]
+        public void TestPush()
+        {
+            System.Collections.Generic.Dictionary<string, string> args = XingKongUtils.HttpUtils.ConstructArgs();
+            args.Add("value1", "test1");
+            args.Add("value2", "test2");
+
+            string response = XingKongUtils.HttpUtils.Post("https://maker.ifttt.com/trigger/push/with/key/bb5oMA5G9nvc4sBvMyI2aH", args, HttpUtils.RequestType.Json);
+            Console.WriteLine(response);
+        }
+
+        [TestMethod]
         public void TestHttpPost()
         {
             var args = XingKongUtils.HttpUtils.ConstructArgs();
