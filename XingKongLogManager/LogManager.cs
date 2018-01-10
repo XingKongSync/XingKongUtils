@@ -135,6 +135,7 @@ namespace XingKongUtils
             {
                 File.AppendAllText(path, log + "\r\n");
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void LogError(string logdata, bool writeToFile)
@@ -150,6 +151,7 @@ namespace XingKongUtils
             {
                 File.AppendAllText(path, log + "\r\n");
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public static void Log(string logdata, MessageType msgType = MessageType.Info, bool writeToFile = true)
