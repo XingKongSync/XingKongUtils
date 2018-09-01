@@ -30,6 +30,9 @@ namespace XingKongUtils
         /// </summary>
         public static readonly string DefaultUserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
 
+        private static readonly char[] _semicolonSpliter = new char[] { ';' };
+        private static readonly char[] _equalSpliter = new char[] { '=' };
+
         private static void CheckEncoding()
         {
             if (RequestEncoding == null)
@@ -145,6 +148,10 @@ namespace XingKongUtils
                         if (parameters is IDictionary<string, string>)
                         {
                             data = GetJsonBytes(parameters as IDictionary<string, string>);
+                        }
+                        else if (parameters is string)
+                        {
+                            data = Encoding.UTF8.GetBytes(parameters as string);
                         }
                         else
                         {
@@ -295,6 +302,17 @@ namespace XingKongUtils
         /// <returns>网页源代码</returns>
         public static string Get(string url)
         {
+            return Get(url, out CookieCollection cookies);
+        }
+
+        /// <summary>
+        /// GET方法
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="cookies">服务器返回的Cookies</param>
+        /// <returns>网页源代码</returns>
+        public static string Get(string url, out CookieCollection cookies)
+        {
             if (url.StartsWith("https"))
             {
                 if (ServicePointManager.ServerCertificateValidationCallback == null)
@@ -310,6 +328,10 @@ namespace XingKongUtils
             myReq.KeepAlive = true;
             myReq.Headers.Add("Accept-Language", "zh-cn,en-us;q=0.5");
             HttpWebResponse result = (HttpWebResponse)myReq.GetResponse();
+
+            ProcessHttpSetCookie(result);
+            cookies = result.Cookies;
+
             Stream receviceStream = result.GetResponseStream();
             StreamReader readerOfStream = new StreamReader(receviceStream, System.Text.Encoding.GetEncoding("utf-8"));
             string strHTML = readerOfStream.ReadToEnd();
@@ -317,6 +339,96 @@ namespace XingKongUtils
             receviceStream.Close();
             result.Close();
             return strHTML;
+        }
+
+        /// <summary>
+        /// 处理HTTP头中的Set-Cookie字段
+        /// </summary>
+        /// <param name="response"></param>
+        public static void ProcessHttpSetCookie(HttpWebResponse response)
+        {
+            if (response.Cookies == null)
+            {
+                response.Cookies = new CookieCollection();
+            }
+            if (response != null && response.Headers != null && response.Headers.AllKeys != null)
+            {
+                foreach (var header in response.Headers.AllKeys)
+                {
+                    if (header.Equals("Set-Cookie"))
+                    {
+                        Cookie cookie = GetCookieFromSetCookie(response.Headers.Get(header));
+                        if (cookie != null)
+                        {
+                            response.Cookies.Add(cookie);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 从Set-Cookie字段中解析Cookie
+        /// </summary>
+        /// <param name="setCookie">HTTP头中的Set-Cookie字段</param>
+        /// <returns>Cookie</returns>
+        private static Cookie GetCookieFromSetCookie(string setCookie)
+        {
+            if (string.IsNullOrWhiteSpace(setCookie))
+            {
+                return null;
+            }
+            string[] parts = setCookie.Split(_semicolonSpliter, StringSplitOptions.RemoveEmptyEntries);
+            if (parts == null)
+            {
+                return null;
+            }
+
+            bool _isCookieValid = false;
+            Cookie cookie = new Cookie();
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string part = parts[i].Trim();
+                string[] keyValuePair = part.Split(_equalSpliter, StringSplitOptions.RemoveEmptyEntries);
+                if (i == 0 && keyValuePair.Length == 2)
+                {
+                    _isCookieValid = true;
+                    cookie.Name = keyValuePair[0];
+                    cookie.Value = keyValuePair[1];
+                }
+                else
+                {
+                    if (keyValuePair.Length > 0)
+                    {
+                        switch (keyValuePair[0])
+                        {
+                            case "HttpOnly":
+                                cookie.HttpOnly = true;
+                                break;
+                            case "Secure":
+                                cookie.Secure = true;
+                                break;
+                            case "Expires":
+                                DateTime.TryParse(keyValuePair[1], out var expires);
+                                cookie.Expires = expires;
+                                break;
+                            case "Domain":
+                                cookie.Domain = keyValuePair[1];
+                                break;
+                            case "Path":
+                                cookie.Path = keyValuePair[1];
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            if (_isCookieValid)
+            {
+                return cookie;
+            }
+            return null;
         }
 
         public static Dictionary<string, string> ConstructArgs()
