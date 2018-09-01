@@ -331,6 +331,13 @@ namespace XingKongUtils
 
             ProcessHttpSetCookie(result);
             cookies = result.Cookies;
+            foreach (Cookie cookie in cookies)
+            {
+                if (string.IsNullOrWhiteSpace(cookie.Domain))
+                {
+                    cookie.Domain = uri.Host;
+                }
+            }
 
             Stream receviceStream = result.GetResponseStream();
             StreamReader readerOfStream = new StreamReader(receviceStream, System.Text.Encoding.GetEncoding("utf-8"));
