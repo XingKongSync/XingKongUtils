@@ -9,4 +9,4 @@
 /XingKongSerialPort/obj
 /XingKongUtils/bin
 /XingKongUtils/obj
-/.vs
+.vs/*
