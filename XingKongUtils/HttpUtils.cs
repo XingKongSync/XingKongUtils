@@ -300,9 +300,9 @@ namespace XingKongUtils
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>网页源代码</returns>
-        public static string Get(string url)
+        public static string Get(string url, SecurityProtocolType securityType = SecurityProtocolType.Tls12)
         {
-            return Get(url, out CookieCollection cookies);
+            return Get(url, out CookieCollection cookies, securityType);
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace XingKongUtils
         /// <param name="url">URL</param>
         /// <param name="cookies">服务器返回的Cookies</param>
         /// <returns>网页源代码</returns>
-        public static string Get(string url, out CookieCollection cookies)
+        public static string Get(string url, out CookieCollection cookies, SecurityProtocolType securityType = SecurityProtocolType.Tls12)
         {
             if (url.StartsWith("https"))
             {
@@ -320,13 +320,15 @@ namespace XingKongUtils
                     ServicePointManager.ServerCertificateValidationCallback += CheckValidationResult;
                 }
             }
-
             Uri uri = new Uri(url);
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(uri);
+            ServicePointManager.SecurityProtocol = securityType;
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
             myReq.UserAgent = "User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705";
             myReq.Accept = "*/*";
             myReq.KeepAlive = true;
             myReq.Headers.Add("Accept-Language", "zh-cn,en-us;q=0.5");
+            myReq.Method = "GET";
+
             HttpWebResponse result = (HttpWebResponse)myReq.GetResponse();
 
             ProcessHttpSetCookie(result);

@@ -120,5 +120,13 @@ namespace UnitTestProject1
                 autoRunHelper.RunWhenStart(true);
             }
         }
+
+        [TestMethod]
+        public void TestHttpsGet()
+        {
+            string url = "https://api.day.app/gsjNFWJXEwsfbxCsq3MCVg/XingKongHouseWatchDog/2018-09-02 13:28:36 我出门了";
+            string response = HttpUtils.Get(url, System.Net.SecurityProtocolType.Tls12);
+            Console.WriteLine(response);
+        }
     }
 }
