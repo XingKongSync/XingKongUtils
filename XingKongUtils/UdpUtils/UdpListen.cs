@@ -54,7 +54,7 @@ namespace XingKongUtils.UdpUtils
         private void listen()
         {
             //声明终结点
-            IPEndPoint iep = null;
+            IPEndPoint iep = new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
                 //获得发过来的数据包
