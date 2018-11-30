@@ -300,9 +300,9 @@ namespace XingKongUtils
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>网页源代码</returns>
-        public static string Get(string url, SecurityProtocolType securityType = SecurityProtocolType.Tls12)
+        public static string Get(string url, SecurityProtocolType securityType = SecurityProtocolType.Tls12, Action<HttpWebRequest> preRequestHandler = null)
         {
-            return Get(url, out CookieCollection cookies, securityType);
+            return Get(url, out CookieCollection cookies, securityType, preRequestHandler);
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace XingKongUtils
         /// <param name="url">URL</param>
         /// <param name="cookies">服务器返回的Cookies</param>
         /// <returns>网页源代码</returns>
-        public static string Get(string url, out CookieCollection cookies, SecurityProtocolType securityType = SecurityProtocolType.Tls12)
+        public static string Get(string url, out CookieCollection cookies, SecurityProtocolType securityType = SecurityProtocolType.Tls12, Action<HttpWebRequest> preRequestHandler = null)
         {
             if (url.StartsWith("https"))
             {
@@ -328,6 +328,8 @@ namespace XingKongUtils
             myReq.KeepAlive = true;
             myReq.Headers.Add("Accept-Language", "zh-cn,en-us;q=0.5");
             myReq.Method = "GET";
+            //处理自定义Request
+            preRequestHandler?.Invoke(myReq);
 
             HttpWebResponse result = (HttpWebResponse)myReq.GetResponse();
 
