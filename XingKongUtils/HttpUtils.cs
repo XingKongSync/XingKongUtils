@@ -61,7 +61,7 @@ namespace XingKongUtils
         /// <param name="userAgent">UserAgent字符串</param>
         /// <param name="cookies">如果没有身份验证信息的话这里可以为null</param>
         /// <returns>HTTP请求</returns>
-        private static HttpWebResponse CreatePostHttpResponse(string url, object parameters, RequestType type, int? timeout, string userAgent, CookieCollection cookies)
+        private static HttpWebResponse CreatePostHttpResponse(string url, object parameters, RequestType type, int? timeout, string userAgent, CookieCollection cookies, Action<HttpWebRequest> preRequestHandler = null)
         {
             //检查各项参数
             if (string.IsNullOrEmpty(url))
@@ -119,6 +119,8 @@ namespace XingKongUtils
                 request.CookieContainer = new CookieContainer();
                 request.CookieContainer.Add(cookies);
             }
+            //处理自定义Request
+            preRequestHandler?.Invoke(request);
 
             //向服务器发送数据
             using (Stream stream = request.GetRequestStream())
@@ -127,7 +129,10 @@ namespace XingKongUtils
             }
 
             //获得服务器响应
-            return request.GetResponse() as HttpWebResponse;
+            var response = request.GetResponse() as HttpWebResponse;
+            //保存服务器返回的Cookie
+            ProcessHttpSetCookie(response);
+            return response;
         }
 
         /// <summary>
@@ -261,10 +266,16 @@ namespace XingKongUtils
         /// <returns>服务器返回的信息</returns>
         public static string Post(string url, object parameters, RequestType type, string userAgent = "", CookieCollection cookies = null)
         {
-            HttpWebResponse response = CreatePostHttpResponse(url, parameters, type, null, userAgent, cookies);
+            return Post(url, parameters, type, out CookieCollection outputCookies, userAgent, cookies);
+        }
+
+        public static string Post(string url, object parameters, RequestType type, out CookieCollection outputCookies, string userAgent = "", CookieCollection cookies = null, Action<HttpWebRequest> preRequestHandler = null)
+        {
+            HttpWebResponse response = CreatePostHttpResponse(url, parameters, type, null, userAgent, cookies, preRequestHandler);
             Stream responseStream = response.GetResponseStream();
             StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
             string Html = streamReader.ReadToEnd();
+            outputCookies = response.Cookies;
             return Html;
         }
 
